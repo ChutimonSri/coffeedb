@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mysqldb import MySQL
 import yaml
@@ -12,8 +12,8 @@ app.config['MYSQL_USER'] = cred['mysql_user']
 app.config['MYSQL_PASSWORD'] = cred['mysql_password']
 app.config['MYSQL_DB'] = cred['mysql_db']
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-mysql = MySQL(app)
 
+mysql = MySQL(app)
 
 @app.route("/")
 def index():
@@ -56,7 +56,16 @@ def login():
         if numRow > 0:
             user =  cur.fetchone()
             if check_password_hash(user['password'], loginForm['password']):
-                flash("Log In successful",'success')
+
+                # Record session information
+                session['login'] = True
+                session['email'] = user['email']
+                session['userroleid'] = str(user['role_id'])
+                session['firstName'] = user['first_name']
+                session['lastName'] = user['last_name']
+                print(session['email'] + " roleid: " + session['userroleid'])
+                flash('Welcome ' + session['firstName'], 'success')
+                # flash("Log In successful",'success')
                 return redirect('/')
             else:
                 cur.close()
