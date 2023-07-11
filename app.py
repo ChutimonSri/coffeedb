@@ -49,9 +49,9 @@ def login():
         return render_template('login.html')
     elif request.method == 'POST':
         loginForm = request.form
-        username = loginForm['username']
+        email = loginForm['email']
         cur = mysql.connection.cursor()
-        queryStatement = f"SELECT * FROM user WHERE username = '{username}'"
+        queryStatement = f"SELECT * FROM user WHERE email = '{email}'"
         numRow = cur.execute(queryStatement)
         if numRow > 0:
             user =  cur.fetchone()
