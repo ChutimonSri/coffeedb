@@ -1,7 +1,8 @@
-from flask import Flask, request, url_for, redirect, render_template, flash
+from flask import Flask, render_template, request, redirect, flash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Never push this line to github public repo"
+
 
 @app.route("/")
 def index():
@@ -63,14 +64,16 @@ def signup():
         return render_template('signup.html')
     elif request.method == 'POST':
         userDetails = request.form
+        # Check the password and confirm password
+        if userDetails['password'] != userDetails['confirm_password']:
+            flash('Passwords do not match!','danger')
+            return render_template('signup.html')
         p1 = userDetails['first_name']
         p2 = userDetails['last_name']
-        p3 = userDetails['username']
-        p4 = userDetails['email']
-        p5 = userDetails['password']
-        p6 = userDetails['gender']
-        print(p1 + "," + p2 + "," + p3 + "," + p4 + "," + p5 + "," + p6)
-        flash("Form Submitted Successfully.")
+        p3 = userDetails['email']
+        p4 = userDetails['password']
+        print(p1 + "," + p2 + "," + p3 + "," + p4)
+        flash("Form Submitted Successfully.",'success')
         return redirect('/')    
     return render_template('signup.html')
 
