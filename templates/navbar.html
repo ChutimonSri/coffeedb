@@ -1,18 +1,28 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <!-- <p style="background-color:yellow;">การกำหนดสีพื้นหลัง</p> -->
-      <a class="navbar-brand" href="#">About</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="#">Member ID</a>
-          <a class="nav-link" href="#">Coffee & Dessert Menu</a>
-          <a class="nav-link" href="#">Pricing</a>
-        </div>
-      </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigation Bar</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="bar">
+        <nav>
+            <h2 class="logo">
+                Coffee <span>Time</span>
+            </h2>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact us</a></li>
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            </ul>
+
+            <div >
+                <a href="{{ url_for('login') }}" class="txt">Log in</a>
+                <a href="{{ url_for('signup') }}"><button type="button">Get started</button></a>
+            </div>
+            
+        </nav>
     </div>
-  </nav>
-  
+</body>
+</html>
