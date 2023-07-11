@@ -1,7 +1,18 @@
 from flask import Flask, render_template, request, redirect, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mysqldb import MySQL
+import yaml
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Never push this line to github public repo"
+
+cred = yaml.load(open('cred.yaml'), Loader=yaml.Loader)
+app.config['MYSQL_HOST'] = cred['mysql_host']
+app.config['MYSQL_USER'] = cred['mysql_user']
+app.config['MYSQL_PASSWORD'] = cred['mysql_password']
+app.config['MYSQL_DB'] = cred['mysql_db']
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql = MySQL(app)
 
 
 @app.route("/")
@@ -72,7 +83,21 @@ def signup():
         p2 = userDetails['last_name']
         p3 = userDetails['email']
         p4 = userDetails['password']
-        print(p1 + "," + p2 + "," + p3 + "," + p4)
+        hashed_pw = generate_password_hash(p4)
+        print(p1 + "," + p2 + "," + p3 + "," + p4 + "," + hashed_pw)
+
+        queryStatement = (
+            f"INSERT INTO "
+            f"user(first_name,last_name, email, password, role_id) "
+            f"VALUES('{p1}', '{p2}', '{p3}','{hashed_pw}', 1)"
+        )
+        print(check_password_hash(hashed_pw, p4))
+        print(queryStatement)
+        cur = mysql.connection.cursor()
+        cur.execute(queryStatement)
+        mysql.connection.commit()
+        cur.close()
+
         flash("Form Submitted Successfully.",'success')
         return redirect('/')    
     return render_template('signup.html')
