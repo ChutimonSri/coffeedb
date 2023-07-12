@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, render_template, request, redirect, flash, session, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mysqldb import MySQL
 import yaml
@@ -70,6 +70,7 @@ def login():
             else:
                 cur.close()
                 flash("Password doesn't match", 'danger')
+                return render_template('login.html')
         else:
             cur.close()
             flash('User not found', 'danger')
