@@ -60,3 +60,95 @@ button{
 span{
     color: yellow;
 }
+.footer {
+    background-color: #6f4e37;
+    color: #ffd700;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.contact-section {
+    text-align: center;
+}
+
+.contact-section h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.contact-section p {
+    margin: 5px 0;
+}
+
+.logo-container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+  .logo {
+    max-width: 350px;
+    margin-right: 10px;
+  }
+  .social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+  }
+  
+  .social-icons img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  .social-logo {
+    width: 30px;
+    height: 30px;
+  }
+  .txt {
+    list-style-type: disc;
+    margin-left: px;
+  }
+  
+  .txt a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+  }
+  .column ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .column li a {
+    text-decoration: none;
+    color: yellow;
+    display: inline-block;
+    padding-left: 20px;
+  }
+
+  .column li a:hover {
+    color: red;
+  }
+
+  .row {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    flex-basis: 30%;
+    text-align: center;
+}
+.footer {
+    background-color: #1c1b1b;
+    color: #ffd700;
+    padding: 20px 0;
+}
