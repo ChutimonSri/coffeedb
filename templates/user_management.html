@@ -6,9 +6,9 @@
 
 
 <div class="d-flex justify-content-center">
-    <b class="display-6" style="margin: 20px; padding-top: 20px;">Member List</b>
+    <b class="display-6" style="margin: 20px; padding-top: 20px;">User Management</b>
 </div>
-<div class="container" style="margin: 20px; padding-left: 60px;">
+<div class="container" style="margin: 20px; padding-left: 50px;">
     <a href="{{ url_for('add_user') }}" class="btn btn-primary">Create New User</a>
 </div>
 <div class="container">
@@ -35,7 +35,7 @@
                 <td>Admin</td>
                 {% endif %}
                 <td><a href="/edit_user/{{user['user_id']}}" class="btn btn-warning">Edit</a></td>
-                <td><a href="/delete_user/{{user['user_id']}}" class="btn btn-danger">Delete</a></td>
+                <td><a href="/confirm_delete_user/{{user['user_id']}}" class="btn btn-danger">Delete</a></td>
             </tr>
             {% endfor %}
         </tbody>

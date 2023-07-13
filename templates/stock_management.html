@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signup.css') }}">
+<div class="bg-img2">
+
+
+<div class="d-flex justify-content-center">
+    <b class="display-6" style="margin: 20px; padding-top: 20px;">Stock Management</b>
+</div>
+<div class="container" style="margin: 20px; padding-left: 60px;">
+    <a href="{{ url_for('add_menu') }}" class="btn btn-primary">Add New Menu</a>
+</div>
+<div class="container">
+    <table class="table mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Total Price</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <td>{{ stock['product_name'] }}</td>
+                <td>{{ stock['quantity'] }}</td>
+                <td>{{ stock['unit_price'] }}</td>
+                <td>{{ stock['total_price'] }}</td>
+                <td><a href="/edit_stock/{{stock['product_id']}}" class="btn btn-warning">Edit</a></td>
+                <td><a href="/confirm_delete_stock/{{stock['product_id']}}" class="btn btn-danger">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</div>
+{% endblock %}

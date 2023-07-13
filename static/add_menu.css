@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+.bg-img{
+  background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url("/static/background.jpg");
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+.content{
+    position:relative;
+    top: 45%;
+    left: 50%;
+    z-index: 999;
+    text-align: center;
+    padding: 60px 32px;
+    width: 430px;
+    transform: translate(-50%,-50%);
+    background: rgba(255,255,255,0.2);
+    box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+  }
+  .content header{
+    color: white;
+    font-size: 33px;
+    font-weight: 600;
+    margin: 0 0 35px 0;
+    font-family: 'Montserrat',sans-serif;
+  }
+  .field{
+    position: relative;
+    height: 45px;
+    width: 100%;
+    display: flex;
+    background: rgba(255,255,255,0.94);
+  }
+  .field span{
+    color: #222;
+    width: 40px;
+    line-height: 45px;
+  }
+  .field input{
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #222;
+    font-size: 16px;
+    font-family: 'Poppins',sans-serif;
+  }
+
+
+input,textarea {
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+  padding: 10px;
+}
+
+input[type="button"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.input-group {
+  clear: both;
+  margin: 20px 0px 10px;
+  position: relative;
+}
+
+.input-group input[type='button'] {
+  background-color: rgb(195, 195, 195);
+  min-width: 45px;
+  width: auto;
+  transition: all 300ms ease;
+
+}
+
+.input-group .button-minus,
+.input-group .button-plus {
+  font-weight: bold;
+  height: 46px;
+  /* padding: 10; */
+  width: 38px;
+  position: relative;
+}
+
+.input-group .quantity-field {
+  position: relative;
+  height: 46px;
+  left: -6px;
+  text-align: center;
+  width: 62px;
+  display: inline-block;
+  font-size: 18px;
+  margin: 0 0 5px;
+  resize: vertical;
+}
+
+.button-plus {
+  left: -13px;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+}
+.counter-label {
+    margin-top: 10px;
+    margin-right: 10px;
+    color: rgb(216, 214, 214);
+    font-weight: bold;
+  }
+.product_name{
+  font-size: 19px;
+  padding-left: 25px;
+  font-weight: bold;
+}
+.field2{
+  position: relative;
+  height: 45px;
+  width: 100%;
+  display:block;
+  background: rgba(12, 12, 12, 0.94);
+}
+.field2 span{
+  color: #c6c3c3;
+  width: 40px;
+  line-height: 45px;
+}

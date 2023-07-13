@@ -218,15 +218,29 @@ def edit_user(id):
             member_form['first_name'] = member['first_name']
             member_form['last_name'] = member['last_name']
             return render_template('edit_user.html', member_form=member_form)
-    
-from flask import session
-
-@app.route('/delete_user/<int:id>/', methods=['GET'])
-def delete_user(id):
-
+        
+@app.route('/confirm_delete_user/<int:id>/', methods=['GET'])
+def confirm_delete_user(id):
     if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        queryStatement = f"SELECT * FROM user WHERE user_id = {id}"
+        cur.execute(queryStatement)
+        user = cur.fetchone()
+        cur.close()
+        if user:
+            return render_template('delete_user.html', user=user)
+        else:
+            flash('User not found', 'error')
+            return redirect('/user_mnm/')
+        
+    
+@app.route('/delete_user/<int:id>/', methods=['GET', 'POST'])
+def delete_user(id):
+    if request.method == 'GET':
+        return render_template('confirm_delete.html', user_id=id)
+    elif request.method == 'POST':
         if id == session.get('user_id'):
-            cur = mysql.connection.cursor()        
+            cur = mysql.connection.cursor()
             queryStatement = f"DELETE FROM user WHERE user_id = {id}"
             print(queryStatement)
             cur.execute(queryStatement)
@@ -236,7 +250,7 @@ def delete_user(id):
             flash('Deleted user successfully', 'success')
             return redirect(url_for('login'))
         else:
-            cur = mysql.connection.cursor()        
+            cur = mysql.connection.cursor()
             queryStatement = f"DELETE FROM user WHERE user_id = {id}"
             print(queryStatement)
             cur.execute(queryStatement)
@@ -244,9 +258,105 @@ def delete_user(id):
             cur.close()
             flash('Deleted user successfully', 'success')
             return redirect('/user_mnm/')
+
         
-
+@app.route('/stock_mnm/')
+def stock_mnm():
+    cur = mysql.connection.cursor()
+    queryStatement = f"SELECT * FROM stock"
+    result_value = cur.execute(queryStatement) 
+    if result_value > 0:
+        stocks = cur.fetchall()
+        return render_template('stock_management.html', stocks=stocks)
+    else:
+        return render_template('stock_management.html')
     
+@app.route('/add_menu/', methods=['GET', 'POST'])
+def add_menu():
+    if request.method == 'GET':
+        return render_template('add_menu.html')
+    elif request.method == 'POST':
+        menuDetails = request.form
+        p1 = menuDetails['product_name']
+        p2 = int(menuDetails['quantity'])
+        p3 = int(menuDetails['unit_price'])
+        print(p1 + "," + str(p2) + "," + str(p3))
 
+        total_price = p2 * p3
+        queryStatement = (
+            f"INSERT INTO "
+            f"stock(product_name, quantity, unit_price, total_price) "
+            f"VALUES('{p1}', '{p2}', '{p3}', '{total_price}')"
+        )
+        print(queryStatement)
+        cur = mysql.connection.cursor()
+        cur.execute(queryStatement)
+        mysql.connection.commit()
+
+        flash("Form Submitted Successfully.", 'success')
+        return redirect('/stock_mnm/')
+    return render_template('add_menu.html')
+
+@app.route('/edit_stock/<int:id>', methods=['GET', 'POST'])
+def edit_stock(id):
+    if request.method == 'POST':
+        cur = mysql.connection.cursor()
+        new_quantity= int(request.form['quantity'])
+        new_unit_price= int(request.form['unit_price'])
+
+        new_total_price= new_quantity * new_unit_price
+
+        queryStatement = f"UPDATE stock SET quantity= '{new_quantity}', unit_price = '{new_unit_price}', total_price = '{new_total_price}' WHERE product_id = {id}"
+        print(queryStatement)
+        cur.execute(queryStatement)
+        mysql.connection.commit()
+        cur.close()
+
+
+        flash('Stock updated', 'success')
+        return redirect('/stock_mnm/')
+    else:
+        cur = mysql.connection.cursor()
+        queryStatement = f"SELECT * FROM stock WHERE product_id = {id}"
+        print(queryStatement)
+        result_value = cur.execute(queryStatement)
+        if result_value > 0:
+            stock = cur.fetchone()
+            stock_form = {}
+            stock_form['product_name'] = stock['product_name']
+            stock_form['quantity'] = stock['quantity']
+            stock_form['unit_price'] = stock['unit_price']
+            stock_form['total_price'] = stock['total_price']
+            return render_template('edit_stock.html', stock_form=stock_form)
+        
+@app.route('/confirm_delete_stock/<int:id>/', methods=['GET'])
+def confirm_delete_stock(id):
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        queryStatement = f"SELECT * FROM stock WHERE product_id = {id}"
+        cur.execute(queryStatement)
+        stock = cur.fetchone()
+        cur.close()
+        if stock:
+            return render_template('delete_stock.html', stock=stock)
+        else:
+            flash('stock not found', 'error')
+            return redirect('/stock_mnm/')
+        
+    
+@app.route('/delete_stock/<int:id>/', methods=['GET', 'POST'])
+def delete_stock(id):
+    if request.method == 'GET':
+        return render_template('confirm_delete.html', product_id=id)
+    elif request.method == 'POST':
+        cur = mysql.connection.cursor()
+        queryStatement = f"DELETE FROM stock WHERE product_id = {id}"
+        print(queryStatement)
+        cur.execute(queryStatement)
+        mysql.connection.commit()
+        cur.close()
+        flash('Deleted stock successfully', 'success')
+        return redirect('/stock_mnm/')
+        
 if __name__ == '__main__':
 	app.run(debug=True);

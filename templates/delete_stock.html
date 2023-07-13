@@ -1,5 +1,3 @@
-
-
 {% extends 'base.html' %}
 {% block content %}
 
@@ -11,20 +9,25 @@
    <div class="bg-img">
       <div class="content">
          <header><center>Confirm Deletion</center></header>
-         <form action="/delete_user/{{ user['user_id'] }}" method="POST">
+         <form action="/delete_stock/{{ stock['product_id'] }}" method="POST">
 
             <div class="field3 name" >
-               First Name : 
-               <span>{{ user['first_name'] }}</span>
+               Product Name : 
+               <span>{{ stock['product_name'] }}</span>
                
             </div>
 
             <div class="field3 name space" >
-               Last Name :
-               <span>{{ user['last_name'] }}</span>
+               Quantity :
+               <span>{{ stock['quantity'] }}</span>
                
             </div>
 
+            <div class="field3 name space" >
+               Unit price :
+               <span>{{ stock['unit_price'] }}</span>
+               
+            </div>
         
             <div class="field space">
                <input type="submit" value="Confirm" class="btn btn-danger">            
