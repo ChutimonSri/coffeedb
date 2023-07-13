@@ -118,5 +118,11 @@ def menu():
         return redirect(url_for('menu'))
     return render_template('menu.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("You have been logged out", 'info')
+    return redirect('/')
+
 if __name__ == '__main__':
 	app.run(debug=True);

@@ -17,10 +17,17 @@
                 <li><a href="{{ url_for('cart') }}">Cart</a></li>
             </ul>
 
-            <div >
-                <a href="{{ url_for('login') }}" class="txt">Log in</a>
-                <a href="{{ url_for('signup') }}"><button type="button">Get started</button></a>
-            </div>   
+            {% if session.get('login') %}
+                <div>
+                    <span>Hello, {{ session.get('firstName') }}</span>
+                    <a href="{{ url_for('logout') }}"><button type="button">Logout</button></a>
+                </div>
+            {% else %}
+                <div>
+                    <a href="{{ url_for('login') }}" class="txt">Log in</a>
+                    <a href="{{ url_for('signup') }}"><button type="button">Get started</button></a>
+                </div>
+            {% endif %}
         </nav>
 
     </div>
