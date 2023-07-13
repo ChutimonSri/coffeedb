@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu.css') }}">
-<div class="bg-img2 menu">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Coffee Time</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  </head>
+
+  <img class="responsive-image" src="{{ url_for('static', filename='mnn.png') }}" alt="Image Description">
+  <div class="bg-img2 menu">
+    <h1 class="space-header">Beverage</h1>
+
 
     <div class="menu-container">
         {% for product in products %}

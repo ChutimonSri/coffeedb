@@ -8,7 +8,8 @@
 }
 .bg-img2{
     background: url("/static/cf_bg.jpg");
-    height: auto;
+    min-height: 100vh;
+    max-height: auto;
     background-size: cover;
     background-position: center;
   }
@@ -53,7 +54,7 @@
 }
 .box span{
     font-size: 1.0rem;
-    color: rgb(251, 249, 251);
+    color: rgb(21, 60, 233);
     font-weight: 600;
     
 }
