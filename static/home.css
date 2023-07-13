@@ -15,7 +15,8 @@
 }
 .w3-display-container{
     position: relative;
-    padding-top: 150px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 .w3-grayscale-min{
     filter: grayscale(50%);
@@ -88,7 +89,8 @@
     margin-top:16px!important
 }
 .w3-container,.w3-panel{
-    padding:0.01em 16px
+    padding:0.01em 16px;
+    padding-bottom: 15px;
 }
 .w3-panel{
     margin-top:16px;
