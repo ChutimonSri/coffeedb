@@ -131,7 +131,22 @@ def signup():
 def menu():
     if request.method == 'POST':
         return redirect(url_for('menu'))
-    return render_template('menu.html')
+    
+    cur = mysql.connection.cursor()
+    queryStatement = "SELECT product_name, unit_price FROM stock"
+    cur.execute(queryStatement)
+    result = cur.fetchall()
+    cur.close()
+    
+    products = []
+    for row in result:
+        product = {
+            'product_name': row['product_name'],
+            'unit_price': row['unit_price']
+        }
+        products.append(product)
+    
+    return render_template('menu.html', products=products)
 
 
 @app.route('/user_mnm/')
