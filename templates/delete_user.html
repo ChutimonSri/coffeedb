@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signup.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+<body>
+   <div class="bg-img">
+      <div class="content">
+         <header>Edit user</header>
+         <form method="POST">
+
+            <div class="field">
+               <span class="fa fa-user"></span>
+               <input type="text" id="first_name" name="first_name" placeholder="First Name">
+            </div>
+
+            <div class="field space">
+               <span class="fa fa-user"></span>
+               <input type="text" id="last_name" name="last_name" required placeholder="Last Name">
+            </div>
+
+
+            <div class="field space">
+               <input type="submit" value="Confirm">
+            </div>
+         </form>
+         
+      </div>
+   </div>
+
+</body>
+</html>
+
+{% endblock %}
