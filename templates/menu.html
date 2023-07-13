@@ -1,171 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Menu Coffee Time</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-  </head>
-
-<img class="responsive-image" src="{{ url_for('static', filename='mn.jpeg') }}" alt="Image Description">
-
-<h1 class="space-header">Beverage</h1>
-
-<section class="menu" id="menu">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu.css') }}">
+<div class="bg-img2 menu">
 
     <div class="menu-container">
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
+        {% for product in products %}
+            <div class="box">
+                <div class="box-img">
+                    <img src="static/coffee.jpg">
+                </div>
+                <h2>{{ product.product_name }}</h2>
+                <span>${{ product.unit_price }}</span>
+                <i class="bx bx-cart-alt"></i>
             </div>
-            <h2>Americano</h2>
-            <span>$1.99</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Espresso</h2>
-            <span>$2.99</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Cappuchino</h2>
-            <span>$2.99</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
+        {% endfor %}
     </div>
 
-    <div class="menu-container">
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Latte</h2>
-            <span>$3.99</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Caramel Machiato</h2>
-            <span>$3.99</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Chocolate</h2>
-            <span>$4.25</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-    </div>
-    <div class="menu-container">
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Green Tea</h2>
-            <span>$4.25</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Black Tea</h2>
-            <span>$4.05</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/coffee.jpg">
-            </div>
-            <h2>Lemon Tea</h2>
-            <span>$4.15</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-    </div>
-
-</section>
-
-<h1 class="space-header">Bakery</h1>
-<section class="menu" id="menu">
-
-    <div class="menu-container">
-        <div class="box">
-            <div class="box-img">
-                <img src="static/croissant.jpeg">
-            </div>
-            <h2 class="little-space"> Cheese Cake</h2>
-            <span>$11.00</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/croissant.jpeg">
-            </div>
-            <h2 class="little-space"> Croissant</h2>
-            <span>$16.00</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/croissant.jpeg">
-            </div>
-            <h2 class="little-space"> Cinnamon</h2>
-            <span>$20.00</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-    </div>
-
-    <div class="menu-container">
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/croissant.jpeg">
-            </div>
-            <h2 class="little-space"> Cookie</h2>
-            <span>$11.00</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/croissant.jpeg">
-            </div>
-            <h2 class="little-space"> Egg Tart</h2>
-            <span>$16.00</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-
-        <div class="box">
-            <div class="box-img">
-                <img src="static/croissant.jpeg">
-            </div>
-            <h2 class="little-space"> Bread</h2>
-            <span>$20.00</span>
-            <i class="bx bx-cart-alt"></i>
-        </div>
-    </div>
-
-</section>
+</div>
 
 {% endblock %}

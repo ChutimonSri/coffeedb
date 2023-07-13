@@ -217,8 +217,9 @@ def edit_user(id):
         mysql.connection.commit()
         cur.close()
 
-        session['firstName'] = new_firstname
-        session['lastName'] = new_lastname
+        if (session['user_id'] == id):
+            session['firstName'] = new_firstname
+            session['lastName'] = new_lastname
 
         flash('User updated', 'success')
         return redirect('/user_mnm/')
