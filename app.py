@@ -404,6 +404,9 @@ def order_summary():
     cur.close()
     
     products = []
+    total_units = 0  # Initialize total_units to zero
+    total_price = 0  # Initialize total_price to zero
+
     for row in result:
         product = {
             'product_name': row['product_name'],
@@ -411,18 +414,43 @@ def order_summary():
         }
         products.append(product)
 
-    return render_template('order_summary.html', cart=cart, total_items=total_items, products=products)
+        if product['product_name'] in cart:
+            quantity = cart[product['product_name']]
+            total_units += quantity
+            total_price += product['unit_price'] * quantity
+
+    return render_template('order_summary.html', cart=cart, total_items=total_items, total_units=total_units, total_price=total_price, products=products)
+
   
 
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     product_name = request.form.get('product_name')
     quantity = int(request.form.get('quantity'))
-    print(product_name)
-    print(quantity)
+
+    if quantity <= 0:
+        flash('Quantity must be greater than 0.', 'danger')
+        return redirect(url_for('cart'))
+
+    cur = mysql.connection.cursor()
+    queryStatement = "SELECT product_name, unit_price, quantity as available_quantity FROM stock WHERE product_name = %s"
+    cur.execute(queryStatement, (product_name,))
+    product_data = cur.fetchone()
+    cur.close()
+
+    available_quantity = product_data['available_quantity']
 
     cart = session.get('cart', {})
+    current_quantity_in_cart = cart.get(product_name, 0)
+
+    if current_quantity_in_cart+quantity > available_quantity:
+        flash(f'Only {available_quantity} units of {product_name} are available.', 'danger')
+        return redirect(url_for('cart'))
     
+    print(current_quantity_in_cart)
+
+    cart = session.get('cart', {})
+
     if product_name in cart:
         cart[product_name] += quantity
     else:
@@ -431,6 +459,7 @@ def add_to_cart():
     session['cart'] = cart
 
     return redirect(url_for('cart'))
+
 
 
     

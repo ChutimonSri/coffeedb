@@ -17,9 +17,8 @@
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
-            
-            {% set total_price = 0 %}
-            {% set total_units = 0 %}
+
+
             {% for product_name, quantity in cart.items() %}
                 {% for product in products %}
                     {% if product.product_name == product_name %}
@@ -28,25 +27,28 @@
                             <td>{{ quantity }}</td>
                             <td>${{ product.unit_price * quantity }}</td>
                         </tr>
-                        
-                        {% set total_price = total_price + (product.unit_price * quantity) %}
-                        {% set total_units = total_units + quantity %}
+                    
                     {% endif %}
                     
                 {% endfor %}
             {% endfor %}
-        
+                        
+            <tr>
+                <th></th>
+                <th>{{ total_units }}</th>
+                <th>${{total_price }}</th>
+            </tr>
+
         </table>
 
-        <div class="total-summary">
-            <p>Total Units: {{ total_units }}</p>
-            <p>Total Price: ${{ total_price }}</p>
-        </div>
-
         <div class="order-summary-btn">
-            <button>
-                Cancel
-            </button>
+            <a  href="{{ url_for('cart') }}">
+                <button >
+                    Cancel
+                </button>
+
+            </a>
+            
             <button>
                 Confirm
             </button>
