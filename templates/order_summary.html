@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='confirm_delete.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+<div class="bg-img">
+    <div class="content">
+        <header><center>Order Summary</center></header>
+
+        {% if total_items == 0 %}
+            <p>Your cart is empty.</p>
+        {% else %}
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            
+            {% set total_price = 0 %}
+            {% set total_units = 0 %}
+            {% for product_name, quantity in cart.items() %}
+                {% for product in products %}
+                    {% if product.product_name == product_name %}
+                        <tr>
+                            <td>{{ product_name }}</td>
+                            <td>{{ quantity }}</td>
+                            <td>${{ product.unit_price * quantity }}</td>
+                        </tr>
+                        
+                        {% set total_price = total_price + (product.unit_price * quantity) %}
+                        {% set total_units = total_units + quantity %}
+                    {% endif %}
+                    
+                {% endfor %}
+            {% endfor %}
+        
+        </table>
+
+        <div class="total-summary">
+            <p>Total Units: {{ total_units }}</p>
+            <p>Total Price: ${{ total_price }}</p>
+        </div>
+
+        <div class="order-summary-btn">
+            <button>
+                Cancel
+            </button>
+            <button>
+                Confirm
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

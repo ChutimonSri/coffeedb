@@ -1,6 +1,120 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Cart page</h2>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+<div class="bg-img2 menu">
+    <a href="{{ url_for('order_summary') }}" class="display-topleft">
+        <button type="button" class="order-summary-button">Order Summary</button>
+      </a>
+    <div class="menu-container">
+        
+        {% for product in products %}
+            <div class="box">
+                <div class="box-img">
+                    <img src="static/coffee.jpg">
+                </div>
+                <h2>{{ product.product_name }}</h2>
+                <span>${{ product.unit_price }}</span>
+
+                <form method="post" action="{{ url_for('add_to_cart') }}">
+                    <input type="hidden" name="product_name" value="{{ product.product_name }}">
+                    <div class="input-group">
+                        <input type="button" value="-" class="button-minus" data-field="quantity">
+                        <input type="number" step="1" min="0" max="{{ product.quantity }}" value="0" name="quantity" class="quantity-field">
+                        <input type="button" value="+" class="button-plus" data-field="quantity">
+                    </div>
+                    <button class="addtocart">
+                        <div class="pretext">
+                          <i class="fas fa-cart-plus"></i> ADD TO CART
+                        </div>
+                        
+                        <div class="pretext done">
+                          <div class="posttext"><i class="fas fa-check"></i> ADDED</div>
+                        </div>
+                        
+                      </button>
+                </form>      
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    
+    function incrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+        var maxVal = parseInt(parent.find('input[name=' + fieldName + ']').attr('max'), 10);
+
+        if (!isNaN(currentVal) && currentVal < maxVal) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+        } 
+    }
+
+    function decrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+        if (!isNaN(currentVal) && currentVal > 0) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(0);
+        }
+    }
+
+    $('.input-group').on('click', '.button-plus', function(e) {
+        incrementValue(e);
+    });
+
+    $('.input-group').on('click', '.button-minus', function(e) {
+        decrementValue(e);
+    });
+
+    $('.addtocart').on('click', function(e) {
+        e.preventDefault();
+        var productBox = $(this).closest('.box');
+        var product_name = productBox.find('h2').text();
+        var quantity = parseInt(productBox.find('.quantity-field').val(), 10);
+
+        // Set the selected quantity in the hidden input field
+        productBox.find('input[name="quantity"]').val(quantity);
+
+        // Submit the form
+        productBox.find('form').submit();
+
+        // Change the button text to "Added" on click
+        $(this).addClass('added');
+        setTimeout(() => {
+            $(this).removeClass('added');
+        }, 2000); // Change back to "Add to cart" after 2 seconds
+    });
+
+    const button = document.querySelector(".addtocart");
+const done = document.querySelector(".done");
+console.log(button);
+let added = false;
+button.addEventListener('click',()=>{
+  if(added){
+    done.style.transform = "translate(-110%) skew(-40deg)";
+    added = false;
+  }
+  else{
+    done.style.transform = "translate(0px)";
+    added = true;
+  }
+    
+});
+
+
+
+</script>
+
 
 {% endblock %}

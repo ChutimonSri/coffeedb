@@ -41,7 +41,23 @@ def contact():
 def cart():
     if request.method == 'POST':
         return redirect(url_for('cart'))
-    return render_template('cart.html')
+    
+    cur = mysql.connection.cursor()
+    queryStatement = "SELECT product_name, unit_price,quantity FROM stock"
+    cur.execute(queryStatement)
+    result = cur.fetchall()
+    cur.close()
+    
+    products = []
+    for row in result:
+        product = {
+            'product_name': row['product_name'],
+            'unit_price': row['unit_price'],
+            'quantity': row['quantity']
+        }
+        products.append(product)
+    
+    return render_template('cart.html', products=products)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -373,6 +389,51 @@ def delete_stock(id):
         cur.close()
         flash('Deleted stock successfully', 'success')
         return redirect('/stock_mnm/')
+    
+
+@app.route('/order_summary', methods=['GET', 'POST'])
+def order_summary():
+
+    cart = session.get('cart', {})
+    total_items = sum(cart.values())  # Calculate the total number of items in the cart
+
+    cur = mysql.connection.cursor()
+    queryStatement = "SELECT product_name, unit_price FROM stock"
+    cur.execute(queryStatement)
+    result = cur.fetchall()
+    cur.close()
+    
+    products = []
+    for row in result:
+        product = {
+            'product_name': row['product_name'],
+            'unit_price': row['unit_price']
+        }
+        products.append(product)
+
+    return render_template('order_summary.html', cart=cart, total_items=total_items, products=products)
+  
+
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    product_name = request.form.get('product_name')
+    quantity = int(request.form.get('quantity'))
+    print(product_name)
+    print(quantity)
+
+    cart = session.get('cart', {})
+    
+    if product_name in cart:
+        cart[product_name] += quantity
+    else:
+        cart[product_name] = quantity
+
+    session['cart'] = cart
+
+    return redirect(url_for('cart'))
+
+
+    
         
 if __name__ == '__main__':
 	app.run(debug=True);
