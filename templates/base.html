@@ -31,13 +31,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    
   </head>
   <body>
     {% include 'navbar.html' %}
 
-    <div style="min-height:100%">
+    <div style="min-height:100%" id="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -51,47 +51,31 @@
 
         {% block content %}{% endblock %}
     </div>
+  </body>
+  <footer>
+    <div class="footer-content">
+      <h2 class="logo">
+        Coffee <span>Time</span>
+    </h2>
+        <p>This project is the culmination of ICCS225 Database Foundations, where we present a delightful and immersive experience of a coffee shop.</p>
+        <ul class="social-icon">
+          <li class="social-icon__item"><a class="social-icon__link" href="https://www.facebook.com/mahidol.inter/?locale=th_TH">
+            <ion-icon name="logo-facebook"></ion-icon>
+          </a></li>
+        <li class="social-icon__item"><a class="social-icon__link" href="https://twitter.com/mahidolinter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">
+            <ion-icon name="logo-twitter"></ion-icon>
+          </a></li>
+        <li class="social-icon__item"><a class="social-icon__link" href="https://www.linkedin.com/company/mahidol-university-international-college?original_referer=https%3A%2F%2Fwww.google.com%2F">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a></li>
+        <li class="social-icon__item"><a class="social-icon__link" href="https://www.instagram.com/mahidol_inter/">
+            <ion-icon name="logo-instagram"></ion-icon>
+          </a></li>
+        </ul>
+    </div>
+  
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-</body>
 
-<footer class="footer">
-  <div class="row">
-      <div class="column">
-          <img src="/static/logo.png" class="logo" alt="Logo">
-      </div>
-      <div class="column">
-          <p style="margin-top: 45px;"><strong>Contact Us</strong></p>
-          
-          <div class="social-icons">
-            <a href="#" target="_blank">
-              <img class="social-logo" src="{{ url_for('static', filename='fb_logo.png') }}" alt="Facebook Logo">
-              <span>Coffee Time</span>
-            </a>
-            <a href="#" target="_blank">
-              <img class="social-logo" src="{{ url_for('static', filename='ig_logo.png') }}" alt="Instagram Logo">
-              <span>Coffee Time</span>
-            </a>
-            <a href="#" target="_blank">
-              <img class="social-logo" src="{{ url_for('static', filename='twitter_logo.png') }}" alt="Twitter Logo">
-              <span>Coffeetime</span>
-            </a>
-          </div>
-          <p style="margin-top: 15px;"> 123/4 Mahidol University International College</p>
-          <p>Salaya, Samphran, Nakornpathom 73110</p>
-        </div>
-        <div class="column">
-          <ul>
-            <li style="margin-top: 50px;" class="txt"><a href="{{ url_for('home') }}">Home</a></li>
-            <li style="margin-top: 10px;" class="txt"><a href="{{ url_for('menu') }}">Menu</a></li>
-            <li style="margin-top: 10px;" class="txt"><a href="{{ url_for('cart') }}">Cart</a></li>
-            <li style="margin-top: 10px;" class="txt"><a href="{{ url_for('order_detail') }}">Order detail</a></li>
-            <li style="margin-top: 10px;" class="txt"><a href="{{ url_for('login') }}">Log in</a></li>
-            <li style="margin-top: 10px;" class="txt"><a href="{{ url_for('signup') }}">Sign Up</a></li>
-            
-          </ul>
-        </div>
-        
-</footer>
 
 </html>

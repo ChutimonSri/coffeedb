@@ -82,7 +82,10 @@ def login():
                 session['lastName'] = user['last_name']
                 print(session['email'] + " roleid: " + session['userroleid'])
                 flash('Welcome ' + session['firstName'], 'success')
-                return redirect('/')
+                if user['role_id'] == 0:
+                    return redirect('/user_mnm')
+                else:
+                    return redirect('/')
             else:
                 cur.close()
                 flash("Password doesn't match", 'danger')
@@ -138,7 +141,7 @@ def signup():
         session['firstName'] = p1
         session['lastName'] = p2
 
-        flash("Form Submitted Successfully.", 'success')
+        flash('Welcome ' + session['firstName'], 'success')
         return redirect('/')
 
     return render_template('signup.html')
@@ -217,7 +220,7 @@ def add_user():
         cur.execute(queryStatement)
         mysql.connection.commit()
 
-        flash("Form Submitted Successfully.", 'success')
+        flash('Added ' + session['firstName'] + 'successfully.', 'success')
         return redirect('/user_mnm/')
     return render_template('add_user.html')
 

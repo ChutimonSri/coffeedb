@@ -29,10 +29,6 @@
                           <i class="fas fa-cart-plus"></i> ADD TO CART
                         </div>
                         
-                        <div class="pretext done">
-                          <div class="posttext"><i class="fas fa-check"></i> ADDED</div>
-                        </div>
-                        
                       </button>
                 </form>      
             </div>
@@ -89,28 +85,13 @@
         // Submit the form
         productBox.find('form').submit();
 
-        // Change the button text to "Added" on click
-        $(this).addClass('added');
-        setTimeout(() => {
-            $(this).removeClass('added');
-        }, 2000); // Change back to "Add to cart" after 2 seconds
+    
     });
 
     const button = document.querySelector(".addtocart");
 const done = document.querySelector(".done");
 console.log(button);
-let added = false;
-button.addEventListener('click',()=>{
-  if(added){
-    done.style.transform = "translate(-110%) skew(-40deg)";
-    added = false;
-  }
-  else{
-    done.style.transform = "translate(0px)";
-    added = true;
-  }
-    
-});
+
 
 
 
