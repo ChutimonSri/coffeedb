@@ -23,6 +23,10 @@
                 <li><a href="{{ url_for('menu') }}">Menu</a></li>
                 <li><a href="{{ url_for('contact') }}">Contact us</a></li>
                 <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                {% if session.get('login') %}
+                    <li><a href="{{ url_for('order_detail') }}">Order detail</a></li>
+                {% endif %}
+                
             </ul>
             {% endif %}
   

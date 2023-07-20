@@ -473,6 +473,25 @@ def remove_from_cart(product_name):
     flash(f'{product_name} has been removed from your cart.', 'success')
     return redirect(url_for('order_summary'))
 
+@app.route('/order_detail', methods=['GET'])
+def order_detail():
+
+    user_id = session['user_id']
+    cur = mysql.connection.cursor()
+    
+    queryStatement = (
+        "SELECT o.order_id, od.quantity, od.unit_price, s.product_name, o.total_price, o.order_date "
+        "FROM order_detail od "
+        "JOIN stock s ON od.product_id = s.product_id "
+        "JOIN `order` o ON od.order_id = o.order_id "
+        "WHERE o.user_id = %s "
+        "ORDER BY o.order_id"
+    )
+    cur.execute(queryStatement, (user_id,))
+    order_details = cur.fetchall()
+    cur.close()
+    
+    return render_template('order_detail.html', order_details=order_details)
 
 @app.route('/add_order', methods=['POST'])
 def add_order():
@@ -544,13 +563,14 @@ def add_order():
         session['total_units'] = 0
         session['total_price'] = 0
         flash('Order placed successfully!', 'success')
-        return redirect(url_for('order_summary'))
+        return redirect(url_for('order_detail'))
 
     except Exception as e:
         flash('Failed to place the order. Please try again later.', 'danger')
         return redirect(url_for('cart'))
 
-    
-        
+
+
+
 if __name__ == '__main__':
 	app.run(debug=True);
