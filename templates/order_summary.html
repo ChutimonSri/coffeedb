@@ -11,68 +11,57 @@
         {% if total_items == 0 %}
             <p>Your cart is empty.</p>
         {% else %}
-        <table class="styled-table">
-            <thead>
+        <form action="{{ url_for('add_order') }}" method="post">  <!-- Add the form element -->
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                {% for product_name, quantity in cart.items() %}
+                    {% for product in products %}
+                        {% if product.product_name == product_name %}
+                        <tbody>
+                            <tr>
+                                <td><img src="{{ url_for('static', filename='coffee.jpg') }}" alt="{{ product_name }} Image" width="50" height="60"></td>
+                                <td>{{ product_name }}</td>
+                                <td>{{ quantity }}</td>
+                                <td>${{ product.unit_price * quantity }}</td>
+                                <td>
+                                    <form action="{{ url_for('remove_from_cart', product_name=product_name) }}" method="post">
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
                 <tr>
                     <th></th>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
+                    <th></th>
+                    <th>{{ total_units }}</th>
+                    <th>${{total_price }}</th>
                     <th></th>
                 </tr>
-            </thead>
-            
-
-
-            {% for product_name, quantity in cart.items() %}
-                {% for product in products %}
-                    {% if product.product_name == product_name %}
-                    <tbody>
-                        <tr>
-                            <td><img src="{{ url_for('static', filename='coffee.jpg') }}" alt="{{ product_name }} Image" width="50" height="60"></td>
-                            <td>{{ product_name }}</td>
-                            <td>{{ quantity }}</td>
-                            <td>${{ product.unit_price * quantity }}</td>
-                            <td>
-                                <form action="{{ url_for('remove_from_cart', product_name=product_name) }}" method="post">
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-                        
-                    
-                    {% endif %}
-                    
-                {% endfor %}
-            {% endfor %}
-                        
-            <tr>
-                <th></th>
-                <th></th>
-                <th>{{ total_units }}</th>
-                <th>${{total_price }}</th>
-                <th></th>
-            </tr>
-
-        </table>
-
-        <div class="order-summary-btn">
-            <a  href="{{ url_for('cart') }}">
-                <button >
-                    Cancel
+            </table>
+            <div class="order-summary-btn">
+                <a href="{{ url_for('cart') }}">
+                    <button type="button">
+                        Cancel
+                    </button>
+                </a>
+                <button type="submit">
+                    Confirm
                 </button>
-
-            </a>
-            
-            <button>
-                Confirm
-            </button>
-        </div>
+            </div>
+        </form> 
         {% endif %}
     </div>
 </div>

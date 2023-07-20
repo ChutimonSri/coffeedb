@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, flash, session, url
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mysqldb import MySQL
 import yaml
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Never push this line to github public repo"
@@ -473,6 +474,73 @@ def remove_from_cart(product_name):
     return redirect(url_for('order_summary'))
 
 
+@app.route('/add_order', methods=['POST'])
+def add_order():
+    if 'user_id' not in session:
+        flash('You must be logged in to place an order.', 'danger')
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    cart = session.get('cart', {})
+    total_price = session.get('total_price', 0)
+
+    if not cart:
+        flash('Your cart is empty. Add items to the cart before placing an order.', 'warning')
+        return redirect(url_for('cart'))
+
+    try:
+        cur = mysql.connection.cursor()
+        total_price = 0
+
+        for product_name, quantity in cart.items():
+            cur.execute(
+                "SELECT unit_price FROM stock WHERE product_name = %s",
+                (product_name,)
+            )
+            product_data = cur.fetchone()
+            unit_price = product_data['unit_price']
+            total_price += unit_price * quantity
+
+        cur.close()
+
+        cur = mysql.connection.cursor()
+        order_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cur.execute(
+            "INSERT INTO `order` (user_id, order_date, total_price) VALUES (%s, %s, %s)",
+            (user_id, order_date, total_price)
+        )
+        order_id = cur.lastrowid
+        cur.close()
+
+        for product_name, quantity in cart.items():
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "SELECT product_id, unit_price FROM stock WHERE product_name = %s",
+                (product_name,)
+            )
+            product_data = cur.fetchone()
+            product_id = product_data['product_id']
+            unit_price = product_data['unit_price']
+            cur.close()
+
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "INSERT INTO order_detail (user_id, order_id, product_id, quantity, unit_price) VALUES (%s, %s, %s, %s, %s)",
+                (user_id, order_id, product_id, quantity, unit_price)
+            )
+            cur.close()
+
+        mysql.connection.commit()
+
+        session['cart'] = {}
+        session['total_units'] = 0
+        session['total_price'] = 0
+        flash('Order placed successfully!', 'success')
+        return redirect(url_for('order_summary'))
+
+    except Exception as e:
+        flash('Failed to place the order. Please try again later.', 'danger')
+        return redirect(url_for('cart'))
 
     
         
