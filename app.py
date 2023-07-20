@@ -460,6 +460,18 @@ def add_to_cart():
 
     return redirect(url_for('cart'))
 
+@app.route('/remove_from_cart/<product_name>', methods=['POST'])
+def remove_from_cart(product_name):
+    cart = session.get('cart', {})
+
+    if product_name in cart:
+        cart.pop(product_name)  # Remove the product from the cart
+
+    session['cart'] = cart
+
+    flash(f'{product_name} has been removed from your cart.', 'success')
+    return redirect(url_for('order_summary'))
+
 
 
     

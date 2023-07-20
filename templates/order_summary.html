@@ -5,28 +5,46 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
 <div class="bg-img">
-    <div class="content">
+    <div class="content-order">
         <header><center>Order Summary</center></header>
 
         {% if total_items == 0 %}
             <p>Your cart is empty.</p>
         {% else %}
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
 
 
             {% for product_name, quantity in cart.items() %}
                 {% for product in products %}
                     {% if product.product_name == product_name %}
+                    <tbody>
                         <tr>
+                            <td><img src="{{ url_for('static', filename='coffee.jpg') }}" alt="{{ product_name }} Image" width="50" height="60"></td>
                             <td>{{ product_name }}</td>
                             <td>{{ quantity }}</td>
                             <td>${{ product.unit_price * quantity }}</td>
+                            <td>
+                                <form action="{{ url_for('remove_from_cart', product_name=product_name) }}" method="post">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+
                         </tr>
+
+                    </tbody>
+                        
                     
                     {% endif %}
                     
@@ -35,8 +53,10 @@
                         
             <tr>
                 <th></th>
+                <th></th>
                 <th>{{ total_units }}</th>
                 <th>${{total_price }}</th>
+                <th></th>
             </tr>
 
         </table>
