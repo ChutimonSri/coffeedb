@@ -569,7 +569,24 @@ def add_order():
         flash('Failed to place the order. Please try again later.', 'danger')
         return redirect(url_for('cart'))
 
+@app.route('/purchase_order', methods=['GET'])
+def purchase_order():
 
+    cur = mysql.connection.cursor()
+    
+    queryStatement = (
+        "SELECT o.order_id, u.first_name, u.last_name, od.quantity, od.unit_price, s.product_name, o.total_price, o.order_date "
+        "FROM order_detail od "
+        "JOIN stock s ON od.product_id = s.product_id "
+        "JOIN `order` o ON od.order_id = o.order_id "
+        "JOIN user u ON o.user_id = u.user_id " 
+        "ORDER BY o.order_id"
+    )
+    cur.execute(queryStatement, )
+    order_details = cur.fetchall()
+    cur.close()
+    
+    return render_template('purchase_order.html', order_details=order_details)
 
 
 if __name__ == '__main__':
