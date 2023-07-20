@@ -29,7 +29,7 @@
             {% for order in order_details %}
             <tr>
                 <td>{{ order['order_id'] }}</td>
-                <td><img src="{{ url_for('static', filename='user-icon.png') }}" alt="{{ user_id }} Image" width="50" height="60"></td>
+                <td><img src="{{ url_for('static', filename='user-icon.png') }}" alt="{{ user_id }} Image" width="50" height="50"></td>
                 <td>{{ order['first_name'] }}</td>
                 <td>{{ order['last_name'] }}</td>
                 <td><img src="{{ url_for('static', filename='coffee.jpg') }}" alt="{{ product_name }} Image" width="50" height="60"></td>
