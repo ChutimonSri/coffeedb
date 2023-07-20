@@ -15,6 +15,7 @@
     <table class="table mt-3">
         <thead class="thead-dark">
             <tr>
+                <th></th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Unit Price</th>
@@ -26,6 +27,7 @@
         <tbody>
             {% for stock in stocks %}
             <tr>
+                <td><img src="{{ url_for('static', filename='coffee.jpg') }}" alt="{{ product_name }} Image" width="50" height="60"></td>
                 <td>{{ stock['product_name'] }}</td>
                 <td>{{ stock['quantity'] }}</td>
                 <td>{{ stock['unit_price'] }}</td>
