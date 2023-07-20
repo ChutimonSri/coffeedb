@@ -515,18 +515,26 @@ def add_order():
         for product_name, quantity in cart.items():
             cur = mysql.connection.cursor()
             cur.execute(
-                "SELECT product_id, unit_price FROM stock WHERE product_name = %s",
+                "SELECT product_id, unit_price, quantity as available_quantity FROM stock WHERE product_name = %s",
                 (product_name,)
             )
             product_data = cur.fetchone()
             product_id = product_data['product_id']
             unit_price = product_data['unit_price']
+            available_quantity = product_data['available_quantity']
             cur.close()
 
             cur = mysql.connection.cursor()
             cur.execute(
                 "INSERT INTO order_detail (user_id, order_id, product_id, quantity, unit_price) VALUES (%s, %s, %s, %s, %s)",
                 (user_id, order_id, product_id, quantity, unit_price)
+            )
+            cur.close()
+
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "UPDATE stock SET quantity = %s WHERE product_id = %s",
+                (available_quantity - quantity, product_id)
             )
             cur.close()
 
